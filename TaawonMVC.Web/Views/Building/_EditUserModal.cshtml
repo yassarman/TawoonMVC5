@@ -1,0 +1,199 @@
+﻿@using TaawonMVC.Web.Models.Common.Modals
+@model TaawonMVC.Web.Models.Building.BuildingViewModel
+@{
+    Layout = null;
+}
+@Html.Partial("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditBuilding")))
+<div class="modal-body">
+    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+        <li role="presentation" class="active"><a href="#edit-user-details" data-toggle="tab">Building Details</a></li>
+        <li role="presentation"><a href="#upload-files" data-toggle="tab">Upload Photos</a></li>
+    </ul>
+    <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane animated fadeIn active" id="edit-user-details">
+            <form name="UserEditForm" role="form" novalidate class="form-validation">
+                <input type="hidden" name="Id" id="Id" value="@Model.Building.Id" />
+
+                <div class="row clearfix" style="margin-top:10px;">
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="NumOfBuildingUnits" type="text" name="NumOfBuildingUnits" value="@Model.Building.numOfBuildingUnits" required maxlength="255" class="validate form-control">
+                                <label for="NumOfBuildingUnits" class="form-label">@L("numOfBuildingUnits")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="NumOfFloors" type="text" name="NumOfFloors" value="@Model.Building.numOfFloors" required maxlength="255" class="validate form-control">
+                                <label for="NumOfFloors" class="form-label">@L("numOfFloors")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="StreetName" type="text" name="StreetName" value="@Model.Building.streetName" required maxlength="255" class="validate form-control">
+                                <label for="StreetName" class="form-label">@L("streetName")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="BuildingNo" type="text" name="BuildingNo" value="@Model.Building.buildingNo" required maxlength="255" class="validate form-control">
+                                <label for="BuildingNo" class="form-label">@L("buildingNo")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                @Html.DropDownListFor(m => Model.Building.neighborhoodID, new SelectList(Model.Neighborhoods, "Id", "EName"), "Select Neighborhood", htmlAttributes: new { @class = "form-control", @name = "NeighborhoodID", @id = "NeighborhoodID", @required = "true" })
+                                @Html.ValidationMessageFor(m => m.Building.neighborhoodID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                @Html.DropDownListFor(m => Model.Building.buildingTypeID, new SelectList(Model.BuildingTypes, "Id", "EName"), "Select Building Type", htmlAttributes: new { @class = "form-control", @name = "BuildingTypeID", @id = "BuildingTypeID", @required = "true" })
+                                @Html.ValidationMessageFor(m => m.Building.buildingTypeID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="GISMAP1" type="text" name="GISMAP1" value="@Model.Building.GISMAP" required maxlength="255" class="validate form-control">
+                                <label for="GISMAP1" class="form-label">@L("GISMAP")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="HoushProperty" type="text" name="HoushProperty" value="@Model.Building.houshProperty" required maxlength="255" class="validate form-control">
+                                <label for="HoushProperty" class="form-label">@L("houshProperty")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="HoushName" type="text" name="HoushName" value="@Model.Building.houshName" required maxlength="255" class="validate form-control">
+                                <label for="HoushName" class="form-label">@L("houshName")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="Xx" type="text" name="Xx" value="@Model.Building.X" required maxlength="255" class="validate form-control">
+                                <label for="Xx" class="form-label">@L("X")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-float">
+                            <div class="form-line">
+                                <input id="Yy" type="text" name="Yy" value="@Model.Building.Y" required maxlength="255" class="validate form-control">
+                                <label for="Yy" class="form-label">@L("Y")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div role="tabpanel" class="tab-pane animated fadeIn" id="upload-files">
+
+            @*@using (Html.BeginForm("UploadFiles", "Building",new { BuildingId =@Model.Building.Id}, FormMethod.Post,   new {enctype = "multipart/form-data"  }))*@
+            @*@using (Ajax.BeginForm(null, null,  new { BuildingId = @Model.Building.Id}, new AjaxOptions(){ HttpMethod = "POST"}, new { enctype = "multipart/form-data",id= "UploadFiles" }))
+            {*@
+
+           <form name="UploadFiles" id ="UploadFiles" enctype="multipart/form-data" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" ,@id="datafile"})
+                            @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @*<input type="submit" value="Upload" id="submitUploadFile" class="btn btn-primary" data-role="none" />*@
+                            <button type="button" name="submitUploadFile" id="submitUploadFile" class="btn btn-primary">Upload</button>
+                        </div>
+                        
+                            <input name="buildingId" id="buildingId" type="hidden" value="@Model.Building.Id"/>
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10 text-success">
+                            @ViewBag.UploadStatus
+                        </div>
+                    </div>
+
+                </div>
+              </form>  
+            
+            @*}*@
+
+            
+               
+            @*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+        </div>
+    </div>
+    </div>
+
+    @Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script src="~/Views/Building/_EditUserModal.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#submitUploadFile').click(function (e) {
+            var buildingId = document.getElementById('buildingId').value; 
+            var filesData = document.getElementById('datafile').value;
+
+            e.preventDefault();
+            $.ajax({
+                cache:false,           
+                //url: abp.appPath + 'Building/UploadFiles?files=' + filesData + '&BuildingId=' + buildingId ,
+                url: "@(Url.Action("UploadFiles", "Building"))",
+                type: 'POST',
+                dataType: 'JSON',
+                //contentType: 'application/html',
+                contentType: "application/json; charset=utf-8",
+                data: { "files": filesData, "BuildingId": buildingId },
+                success: function (result) {
+                   // $('#UserEditModal div.modal-content').html(content);
+                    alert('works fine'+result);
+                },
+                error: function (result) {
+                    alert('fails1' + result[0]);
+                                
+                }
+            });
+                        
+        });
+    });
+</script>

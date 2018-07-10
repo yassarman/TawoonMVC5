@@ -1,0 +1,487 @@
+﻿@using System.Web.Optimization
+@using Abp.Authorization.Users
+@using Abp.Web.Mvc.Extensions
+@model TaawonMVC.Web.Models.Building.BuildingViewModel
+@{
+    ViewBag.Title = @L("Building");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @L("Building")
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>Refresh</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>@L("numOfBuildingUnits")</th>
+                            <th>@L("numOfFloors")</th>
+                            <th>@L("streetName")</th>
+                            <th>@L("buildingNo")</th>
+                            <th>@L("neighborhoodID")</th>
+                            <th>@L("buildingTypeID")</th>
+                            <th>@L("buildingUsesID")</th>
+                            <th>@L("BuildingName")</th>
+                            <th>@L("IsInHoush")</th>
+                            <th>@L("GISMAP")</th>
+                            <th>@L("houshProperty")</th>
+                            <th>@L("houshName")</th>
+                            <th>@L("X")</th>
+                            <th>@L("Y")</th>
+                            <th>@L("Actions")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var Building in Model.Buildings)
+                        {
+                            <tr>
+                                <td>@Building.numOfBuildingUnits</td>
+                                <td>@Building.numOfFloors</td>
+                                <td>@Building.streetName</td>
+                                <td>@Building.buildingNo</td>
+                                <td>@Building.NeighboorHood.EName</td>
+                                <td>@Building.BuildingType.EName</td>
+                                <td>@Building.BuildingUses.UsedFor</td>
+                                <td>@Building.buildingName</td>
+                                <td>@Building.isInHoush</td>
+                                <td>@Building.GISMAP</td>
+                                <td>@Building.houshProperty</td>
+                                <td>@Building.houshName</td>
+                                <td>@Building.X</td>
+                                <td>@Building.Y</td>
+                                <td class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">menu</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="#" class="waves-effect waves-block edit-user" data-BuildingType-id="@Building.Id" data-toggle="modal" data-target="#UploadFilesModal"><i class="material-icons">edit</i>@L("Upload")</a></li>
+                                        <li><a href="#" class="waves-effect waves-block edit-user" data-BuildingType-id="@Building.Id" data-toggle="modal" data-target="#UserEditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
+                                        <li><a href="#" class="waves-effect waves-block delete-user" data-BuildingType-id="@Building.Id" data-BuildingType-name="@Building.buildingName"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right" data-toggle="modal" data-target="#UserCreateModal">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UserCreateModal" tabindex="-1" role="dialog" aria-labelledby="UserCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>@L("CreateBuilding")</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form name="userCreateForm" role="form" novalidate class="form-validation">
+                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                        <li role="presentation" class="active"><a href="#create-user-details" data-toggle="tab">Building Details</a></li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-user-details">
+                            <div class="row clearfix" style="margin-top:10px;">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="numOfBuildingUnits" id="numOfBuildingUnits" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("numOfBuildingUnits")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="numOfFloors" id="numOfFloors" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("numOfFloors")</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row clearfix">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="streetName" id="streetName" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("streetName")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="buildingNo" id="buildingNo" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("buildingNo")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            @Html.DropDownListFor(m => Model.Building.isInHoush, Model.YesOrNo, htmlAttributes: new { @class = "form-control", @name = "IsInHoush", @id = "IsInHoush", @required = "true", onchange = "showMe(this);" })
+                                            <label class="form-label">@L("IsInHoush")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line" id="idShowMe" hidden>
+                                            <input type="text" name="houshName" id="houshName" class="form-control" required maxlength="255" autocomplete="off">
+                                            <label class="form-label">@L("houshName")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row clearfix">
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            @Html.DropDownListFor(m => Model.Building.neighborhoodID, new SelectList(Model.Neighborhoods, "Id", "EName"), "Select Neighborhood", htmlAttributes: new { @class = "form-control", @name = "neighborhoodID", @id = "neighborhoodID", @required = "true" })
+                                            @Html.ValidationMessageFor(m => m.Building.neighborhoodID, "", new { @class = "text-danger" })
+                                            <label class="form-label">@L("neighborhoodID")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            @Html.DropDownListFor(m => Model.Building.buildingTypeID, new SelectList(Model.BuildingTypes, "Id", "EName"), "Select Building Type", htmlAttributes: new { @class = "form-control", @name = "buildingTypeID", @id = "buildingTypeID", @required = "true" })
+                                            @Html.ValidationMessageFor(m => m.Building.buildingTypeID, "", new { @class = "text-danger" })
+                                            <label class="form-label">@L("buildingTypeID")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            @Html.DropDownListFor(m => Model.Building.buildingUsesID, new SelectList(Model.BuildingUses, "Id", "UsedFor"), "Select building uses", htmlAttributes: new { @class = "form-control", @name = "buildingUsesID", @id = "buildingUsesID", @required = "true" })
+                                            @Html.ValidationMessageFor(m => m.Building.neighborhoodID, "", new { @class = "text-danger" })
+                                            <label class="form-label">@L("buildingUsesID")</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row clearfix">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="GISMAP" id="GISMAP" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("GISMAP")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="houshProperty" id="houshProperty" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("houshProperty")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+
+
+
+                            </div>
+                            <div class="row clearfix">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="X" id="X" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("X")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" name="Y" id="Y" class="form-control" required maxlength="255">
+                                            <label class="form-label">@L("Y")</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="submit" class="btn btn-primary waves-effect">@L("Save")</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UserEditModal" tabindex="-1" role="dialog" aria-labelledby="UserEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UploadFilesModal" tabindex="-1" role="dialog" aria-labelledby="UserEditModalLabel" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <!-- Generic page styles -->
+            <link rel="stylesheet" href="../../css/style.css">
+            <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+            <link rel="stylesheet" href="../../css/jquery.fileupload.css">
+            <span class="btn btn-success fileinput-button">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Select files...</span>
+                <input id="fileupload" type="file" name="files[]"  multiple>
+            </span>
+            <br>
+            <br>
+            <!-- The global progress bar -->
+            <div id="progress" class="progress">
+                <div class="progress-bar progress-bar-success"></div>
+            </div>
+            <!-- The container for the uploaded files -->
+            <div id="files" class="files"></div>
+            <br>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="../../js/vendor/jquery.ui.widget.js"></script>
+            <script src="../../js/jquery.iframe-transport.js"></script>
+            <script src="../../js/jquery.fileupload.js"></script>
+            <script>
+                /*jslint unparam: true */
+                /*global window, $ */
+                $(function () {
+                    'use strict';
+                    // Change this to the location of your server-side upload handler:
+                    var url = window.location.hostname === '../../server/php/';
+                       
+                    $('#fileupload').fileupload({
+                            url: url,
+                            dataType: 'json',
+                            done: function (e, data) {
+                                $.each(data.result.files, function (index, file) {
+                                    $('<p/>').text(file.name).appendTo('#files');
+                                });
+                            },
+                            progressall: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                $('#progress .progress-bar').css(
+                                    'width',
+                                    progress + '%'
+                                );
+                            }
+                        }).prop('disabled', !$.support.fileInput)
+                        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+                });
+            </script>
+
+            <script>
+                window.addEventListener('load', function () { window.cookieconsent.initialise({ palette: { popup: { background: '#428bca' }, button: { background: '#fff' } } }) })
+            </script>
+
+
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Html.IncludeScript("~/Views/Building/Index.js")
+    @Html.IncludeScript("~/Views/Building/HideInput.js")
+    @Html.IncludeScript("~/Views/Building/AutoComplete.js")
+
+}
+
+<script>
+
+    
+    // read property value from controler passed to the view .
+    //-----------------------
+    var HoushNameArray = '@Html.Raw(Json.Encode(Model.HoushNameArray))';//
+    var jsonobj = JSON.parse(HoushNameArray);
+    var result = [];
+    for (i in jsonobj)
+        result.push(i, jsonobj[i]);
+    //------------------------------
+
+
+
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false; }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+
+    autocomplete(document.getElementById("houshName"), result);
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
